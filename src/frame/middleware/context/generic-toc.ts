@@ -76,7 +76,9 @@ export default async function genericToc(req: ExtendedRequest, res: Response, ne
   // or below level is fair game because that content is scoped to specific features.
   const isCategoryOrSubcategory =
     req.context.page.documentType === 'category' || req.context.page.documentType === 'subcategory'
-  if (!req.context.currentPath) throw new Error('currentPath not in context')
+  if (typeof req.context.currentPath !== 'string' || !req.context.currentPath) {
+    throw new Error('currentPath not in context')
+  }
   const isEarlyAccess = req.context.currentPath.includes('/early-access/')
   const isArticlesCategory = req.context.currentPath.endsWith('/articles')
 
